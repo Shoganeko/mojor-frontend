@@ -1,4 +1,4 @@
-const base = "http://localhost:8080"
+import {base} from "./Api";
 
 export const getLatestMotd = (callback) => {
     fetch(`${base}/motd/latest`)

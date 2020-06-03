@@ -1,5 +1,9 @@
 import React from "react";
 import {getLatestMotd} from "../handle/MotdHandler";
+import {Breadcrumb, Button, Divider} from "antd";
+import {Link, Redirect} from "react-router-dom";
+import { HomeOutlined } from "@ant-design/icons"
+import "../assets/scss/pages/home.scss"
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -14,20 +18,53 @@ export default class Home extends React.Component {
 
     componentDidMount() {
         getLatestMotd((motd) => {
-            this.setState({
-                motd: motd.motd.data,
-                owner: motd.owner.username,
-                date: new Date(motd.motd.date).toLocaleString()
-            })
+            if (motd != null) {
+                this.setState({
+                    motd: motd.motd.data,
+                    owner: motd.owner.username,
+                    date: new Date(motd.motd.date).toLocaleString()
+                })
+            } else {
+                this.setState({
+                    motd: "Loading",
+                    owner: "Loading",
+                    date: "Loading"
+                })
+            }
         })
     }
 
     render() {
-        console.log("Bruhj")
-        return <div>
-            <p>{this.state.motd}</p>
-            <p>{this.state.owner}</p>
-            <p>{this.state.date}</p>
-        </div>
+        if (this.state.motd === "Loading")
+            return <Redirect to="/backend-down"/>
+
+        return (<>
+            <div className="nav-container">
+                <Breadcrumb>
+                    <Breadcrumb.Item> <HomeOutlined /> </Breadcrumb.Item>
+                </Breadcrumb>
+
+                <Button ghost>Login</Button>
+            </div>
+
+            <div className="container">
+                <h1 className="title">shog.dev</h1>
+
+                <div className="motd-container">
+                    <p className="motd-title">{this.state.motd}</p>
+                    <p className="motd-bottom">
+                        {this.state.date} by {this.state.owner}
+                        <br/>
+                        <Link to="/history">View more</Link>
+                    </p>
+                </div>
+
+                <div className="links-container">
+                    <p>
+                        <a target="_blank" href="/discord">discord</a>, <Link to="/projects">projects</Link>, <Link to="/clock">clock</Link>.
+                    </p>
+                </div>
+            </div>
+        </>)
     }
 }

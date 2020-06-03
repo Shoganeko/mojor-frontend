@@ -1,0 +1,56 @@
+@import "../variables";
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.container {
+  margin-top: 12rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    color: rgba(255, 255, 255, 0.75);
+    &:hover {
+      color: gray;
+    }
+  }
+
+  .title {
+    font-size: 72px;
+    font-weight: 600;
+  }
+
+  .links-container {
+    margin-top: 2rem;
+  }
+
+  .motd-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: -1rem;
+
+    a {
+      text-decoration: underline;
+    }
+
+    .motd-title {
+      color: rgb(146, 167, 204);
+      font-size: 24px;
+      font-weight: 300;
+      margin-bottom: 0;
+    }
+
+    .motd-bottom {
+      font-family: $code-font;
+      font-size: 10px;
+    }
+  }
+}
