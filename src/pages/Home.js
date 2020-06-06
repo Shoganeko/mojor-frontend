@@ -4,6 +4,7 @@ import {Breadcrumb, Button, Divider} from "antd";
 import {Link, Redirect} from "react-router-dom";
 import { HomeOutlined } from "@ant-design/icons"
 import "../assets/scss/pages/home.scss"
+import User from "../handle/User";
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -44,7 +45,7 @@ export default class Home extends React.Component {
                     <Breadcrumb.Item> <HomeOutlined /> </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Button ghost>Login</Button>
+                <User/>
             </div>
 
             <div className="container">

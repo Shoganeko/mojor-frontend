@@ -8,6 +8,7 @@ import Projects from "./pages/projects/Projects";
 import Buta from "./pages/projects/Buta";
 import Mojor from "./pages/projects/Mojor";
 import Clock from "./pages/Clock";
+import Login from "./pages/Login";
 function App() {
     return (
         <Switch>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/projects/buta"> <Buta/> </Route>
             <Route path="/projects/mojor"> <Mojor/> </Route>
             <Route path="/clock"> <Clock/> </Route>
+            <Route path="/login"> <Login/> </Route>
             <Route exact path="/backend-down" component={() => <h1>The backend is currently down.</h1>}/>
 
             <Route path='/discord' component={() => {
