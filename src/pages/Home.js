@@ -23,7 +23,8 @@ export default class Home extends React.Component {
                 this.setState({
                     motd: motd.motd.data,
                     owner: motd.owner.username,
-                    date: new Date(motd.motd.date).toLocaleString()
+                    date: new Date(motd.motd.date).toLocaleString(),
+                    dateUnix: motd.motd.date
                 })
             } else {
                 this.setState({
@@ -49,21 +50,23 @@ export default class Home extends React.Component {
             </div>
 
             <div className="container">
-                <h1 className="title">shog.dev</h1>
+                <div className="home-container">
+                    <h1 className="title">shog.dev</h1>
 
-                <div className="motd-container">
-                    <p className="motd-title">{this.state.motd}</p>
-                    <p className="motd-bottom">
-                        {this.state.date} by {this.state.owner}
-                        <br/>
-                        <Link to="/history">View more</Link>
-                    </p>
-                </div>
+                    <div className="motd-container">
+                        <p className="motd-title">{this.state.motd}</p>
+                        <p className="motd-bottom">
+                            {this.state.date} by {this.state.owner}
+                            <br/>
+                            <Link to={`/history?selected=${this.state.dateUnix}`}>View more</Link>
+                        </p>
+                    </div>
 
-                <div className="links-container">
-                    <p>
-                        <a target="_blank" href="/discord">discord</a>, <Link to="/projects">projects</Link>, <Link to="/clock">clock</Link>.
-                    </p>
+                    <div className="links-container">
+                        <p>
+                            <a target="_blank" href="/discord">discord</a>, <Link to="/projects">projects</Link>, <Link to="/clock">clock</Link>.
+                        </p>
+                    </div>
                 </div>
             </div>
         </>)

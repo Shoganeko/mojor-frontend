@@ -9,3 +9,13 @@ export const getLatestMotd = (callback) => {
         })
         .catch(() => callback(null))
 }
+
+export const getMotds = (callback) => {
+    fetch(`${base}/motd`)
+        .then((resp) => {
+            if (resp.ok) {
+                resp.json().then((js) => callback(js))
+            } else callback(null)
+        })
+        .catch(() => callback(null))
+}

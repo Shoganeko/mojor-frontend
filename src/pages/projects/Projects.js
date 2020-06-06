@@ -4,6 +4,7 @@ import {Breadcrumb, Button, Divider} from "antd";
 import {Link} from "react-router-dom";
 import { HomeOutlined } from "@ant-design/icons"
 import "../../assets/scss/pages/home.scss"
+import User from "../../handle/User";
 
 export default class Projects extends React.Component {
     render() {
@@ -14,7 +15,7 @@ export default class Projects extends React.Component {
                     <Breadcrumb.Item> Projects </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Button ghost>Login</Button>
+                <User/>
             </div>
 
             <div className="container">

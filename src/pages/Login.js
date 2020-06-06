@@ -11,6 +11,7 @@ import { message } from 'antd';
 import {login, signedIn} from "../handle/AccountHandler";
 import history from "../handle/History"
 import {Redirect} from "react-router-dom";
+import User from "../handle/User";
 
 const recaptchaRef = React.createRef();
 
@@ -26,7 +27,7 @@ export default class Login extends React.Component {
                     <Breadcrumb.Item> Login </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Button ghost>Login</Button>
+                <User/>
             </div>
             <div className="container">
                 <div className="login-container">

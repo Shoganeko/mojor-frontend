@@ -8,7 +8,7 @@ export default class User extends React.Component {
         if (signedIn()) {
             let self = getSelf()
 
-            return (<div className="user-data-top-container">
+            return (<div className="nav-user-data-container">
                 <Link to="/">{self.username}</Link>
             </div>)
         } else {

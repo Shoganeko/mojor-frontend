@@ -3,6 +3,7 @@ import {Breadcrumb, Button} from "antd";
 import {HomeOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
 import "../../assets/scss/pages/projects.scss"
+import User from "../../handle/User";
 
 export default class Mojor extends React.Component {
     render() {
@@ -14,7 +15,7 @@ export default class Mojor extends React.Component {
                     <Breadcrumb.Item href="/projects/mojor"> Mojor </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Button ghost>Login</Button>
+                <User/>
             </div>
 
             <div className="container">

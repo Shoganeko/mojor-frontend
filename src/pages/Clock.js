@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import { HomeOutlined } from "@ant-design/icons"
 import "../assets/scss/pages/clock.scss"
 import ClockCircleOutlined from "@ant-design/icons/lib/icons/ClockCircleOutlined";
+import User from "../handle/User";
 
 export default class Clock extends React.Component {
     constructor(props) {
@@ -42,7 +43,7 @@ export default class Clock extends React.Component {
                     <Breadcrumb.Item> <ClockCircleOutlined/> </Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Button ghost>Login</Button>
+                <User/>
             </div>
 
             <div className="container">
