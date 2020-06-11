@@ -45,7 +45,7 @@ export default class Login extends React.Component {
                                 return
                             }
 
-                            login(values.username, sha512(values.password), captcha, (data) => {
+                            login(values.username, values.password, captcha, (data) => {
                                 if (data != null) {
                                     notification["success"]({
                                         message: 'Success',

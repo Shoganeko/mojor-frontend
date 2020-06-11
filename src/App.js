@@ -22,7 +22,12 @@ function App() {
 
             <Route path="/history"> <MotdHistory/> </Route>
 
-            <Route exact path="/backend-down" component={() => <h1>The backend is currently down.</h1>}/>
+            <Route exact path="/backend-down" component={() =>
+                <h1 style={{
+                    textAlign: "center",
+                    marginTop: "14rem"
+                }}>The backend is currently down.</h1>
+            }/>
 
             <Route path='/discord' component={() => {
                 window.location.replace('https://discord.gg/R8n3T2v');
