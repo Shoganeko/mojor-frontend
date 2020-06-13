@@ -9,7 +9,7 @@ export default class User extends React.Component {
             let self = getSelf()
 
             return (<div className="nav-user-data-container">
-                <Link to={`/@${self.username}`}>{self.username}</Link>
+                <Link to={`/settings`}>{self.username}</Link>
             </div>)
         } else {
             return (<Button href="/login" ghost>Login</Button>)

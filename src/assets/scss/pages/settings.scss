@@ -1,0 +1,21 @@
+.container {
+  .settings-container {
+    min-width: 400px;
+
+    .set-username {
+      input {
+        width: 209px;
+      }
+    }
+
+    .set-username, .set-password {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      button {
+        margin-left: 2rem;
+      }
+    }
+  }
+}

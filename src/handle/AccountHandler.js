@@ -9,6 +9,61 @@ export const getSelf = () =>
 export const signedIn = () =>
     cookies.get("token") != null
 
+export const getAttempts = (callback) => {
+    fetch(`${base}/user/attempts`, {
+        method: 'GET',
+        headers: {
+            "Authorization": `bearer ${cookies.get("token")}`
+        }
+    }).then((result) => {
+        result.json()
+            .then((json) => callback(json))
+    })
+        .catch(() => callback(null))
+}
+
+export const changeUsername = (username, callback) => {
+    let form = new FormData()
+
+    form.append("username", username)
+
+    fetch(`${base}/user/username`, {
+        method: 'POST',
+        body: form,
+        headers: {
+            "Authorization": `bearer ${cookies.get("token")}`
+        }
+    })
+        .then((result) => {
+            if (result.ok) {
+
+                let self = getSelf()
+                self.username = username
+
+                localStorage.setItem("selfData", JSON.stringify(self))
+
+                callback(true)
+            } else callback(false)
+        })
+        .catch(() => callback(false))
+}
+
+export const changePassword = (password, callback) => {
+    let form = new FormData()
+
+    form.append("password", password)
+
+    fetch(`${base}/user/password`, {
+        method: 'POST',
+        body: form,
+        headers: {
+            "Authorization": `bearer ${cookies.get("token")}`
+        }
+    })
+        .then((result) => callback(result.ok))
+        .catch(() => callback(false))
+}
+
 export const login = (username, password, captcha, callback) => {
     console.log(`Signing in using ${username}...`)
 

@@ -10,6 +10,7 @@ import Mojor from "./pages/projects/Mojor";
 import Clock from "./pages/Clock";
 import Login from "./pages/Login";
 import MotdHistory from "./pages/MotdHistory";
+import Settings from "./pages/Settings";
 function App() {
     return (
         <Switch>
@@ -21,6 +22,8 @@ function App() {
             <Route path="/login"> <Login/> </Route>
 
             <Route path="/history"> <MotdHistory/> </Route>
+
+            <Route path="/settings"> <Settings/> </Route>
 
             <Route exact path="/backend-down" component={() =>
                 <h1 style={{
