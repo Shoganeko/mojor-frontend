@@ -16,3 +16,18 @@
     }
   }
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .container {
+    .project-details {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .projects-container {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+}
+

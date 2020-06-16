@@ -1,6 +1,6 @@
 {
   "name": "mojor",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.1",

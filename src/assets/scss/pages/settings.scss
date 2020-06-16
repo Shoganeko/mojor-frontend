@@ -2,20 +2,22 @@
   .settings-container {
     min-width: 400px;
 
-    .set-username {
-      input {
-        width: 209px;
-      }
-    }
-
     .set-username, .set-password {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      button {
-        margin-left: 2rem;
-      }
+      flex-direction: column;
     }
   }
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .settings-container {
+    min-width: 320px !important;
+    max-width: 320px !important;
+  }
+
+  .ant-table-wrapper {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+

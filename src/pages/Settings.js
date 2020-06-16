@@ -66,7 +66,7 @@ export default class Settings extends React.Component {
             </div>
 
             <div className="container">
-                <Tabs defaultActiveKey="1" size="large" className="settings-container">
+                <Tabs defaultActiveKey="1" size="small" className="settings-container">
                     <TabPane tab="Account" key="1">
                         <p>Change various account settings.</p>
                         <br/>
@@ -96,6 +96,8 @@ export default class Settings extends React.Component {
                             >
                                 <Input />
                             </Form.Item>
+
+                            <br />
 
                             <Form.Item>
                                 <Button type="primary" htmlType="submit">
