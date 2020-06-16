@@ -3,12 +3,24 @@ import Cookies from "universal-cookie"
 
 const cookies = new Cookies();
 
+/**
+ * Get local self data.
+ * @returns {any}
+ */
 export const getSelf = () =>
     JSON.parse(localStorage.getItem("selfData"))
 
+/**
+ * If user is signed in.
+ * @returns {boolean}
+ */
 export const signedIn = () =>
-    cookies.get("token") != null
+    getToken() != null
 
+/**
+ * Get login attempts for self.
+ * @param callback
+ */
 export const getAttempts = (callback) => {
     fetch(`${base}/user/attempts`, {
         method: 'GET',
@@ -22,6 +34,11 @@ export const getAttempts = (callback) => {
         .catch(() => callback(null))
 }
 
+/**
+ * Change username.
+ * @param username
+ * @param callback
+ */
 export const changeUsername = (username, callback) => {
     let form = new FormData()
 
@@ -48,6 +65,11 @@ export const changeUsername = (username, callback) => {
         .catch(() => callback(false))
 }
 
+/**
+ * Change password.
+ * @param password
+ * @param callback
+ */
 export const changePassword = (password, callback) => {
     let form = new FormData()
 
@@ -64,9 +86,20 @@ export const changePassword = (password, callback) => {
         .catch(() => callback(false))
 }
 
+/**
+ * Get local token.
+ * @returns {*}
+ */
 export const getToken = () =>
     cookies.get("token")
 
+/**
+ * Login
+ * @param username
+ * @param password
+ * @param captcha
+ * @param callback
+ */
 export const login = (username, password, captcha, callback) => {
     console.log(`Signing in using ${username}...`)
 

@@ -37,6 +37,7 @@ function App() {
                 window.location.replace('https://discord.gg/R8n3T2v');
                 return null;
             }}/>
+
             <Route component={NotFound}/>
         </Switch>
     );
