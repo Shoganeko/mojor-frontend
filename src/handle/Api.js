@@ -1,1 +1,1 @@
-export const base = "http://localhost:8080"
+export const base = "https://api.shog.dev"
