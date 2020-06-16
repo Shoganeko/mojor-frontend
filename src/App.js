@@ -11,6 +11,7 @@ import Clock from "./pages/Clock";
 import Login from "./pages/Login";
 import MotdHistory from "./pages/MotdHistory";
 import Settings from "./pages/Settings";
+import {Blogs, ViewBlog} from "./pages/blogs/Blog";
 function App() {
     return (
         <Switch>
@@ -20,10 +21,10 @@ function App() {
             <Route path="/projects/mojor"> <Mojor/> </Route>
             <Route path="/clock"> <Clock/> </Route>
             <Route path="/login"> <Login/> </Route>
-
             <Route path="/history"> <MotdHistory/> </Route>
-
             <Route path="/settings"> <Settings/> </Route>
+            <Route path="/blog/:blog" component={ViewBlog} />
+            <Route path="/blog"> <Blogs/> </Route>
 
             <Route exact path="/backend-down" component={() =>
                 <h1 style={{

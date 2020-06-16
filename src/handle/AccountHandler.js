@@ -64,6 +64,9 @@ export const changePassword = (password, callback) => {
         .catch(() => callback(false))
 }
 
+export const getToken = () =>
+    cookies.get("token")
+
 export const login = (username, password, captcha, callback) => {
     console.log(`Signing in using ${username}...`)
 
@@ -83,14 +86,14 @@ export const login = (username, password, captcha, callback) => {
 
                 resp.json()
                     .then((json) => {
-                        cookies.set("token", json.payload.token.token, {
+                        cookies.set("token", json.token.token, {
                             path: '/',
                             sameSite: 'Strict'
                         })
 
-                        localStorage.setItem("selfData", JSON.stringify(json.payload.user))
+                        localStorage.setItem("selfData", JSON.stringify(json.user))
 
-                        callback(json.payload)
+                        callback(json)
                     })
             } else {
                 console.log(`Sign in unsuccessful!`)

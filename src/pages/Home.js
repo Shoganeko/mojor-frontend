@@ -64,7 +64,7 @@ export default class Home extends React.Component {
 
                     <div className="links-container">
                         <p>
-                            <a target="_blank" href="/discord">discord</a>, <Link to="/projects">projects</Link>, <Link to="/clock">clock</Link>.
+                            <a target="_blank" href="/discord">discord</a>, <Link to="/projects">projects</Link>, <Link to="/clock">clock</Link>, <Link to="/blog">blog</Link>.
                         </p>
                     </div>
                 </div>
