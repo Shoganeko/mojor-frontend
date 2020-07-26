@@ -72,7 +72,7 @@ export const signIn = async (token) => {
 export const discordSignOut = () => {
     store.dispatch(logOut())
     store.dispatch(alertInfo("You have been signed out of Buta!"))
-    history.push("/")
+    history.push("/buta")
 }
 
 /**
