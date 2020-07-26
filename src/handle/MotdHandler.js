@@ -1,29 +1,15 @@
-import {base} from "./Api";
+import { api } from "./Api";
 
 /**
- * Get the latest MOTD
- * @param callback
+ * Get the latest MOTD>
  */
-export const getLatestMotd = (callback) => {
-    fetch(`${base}/motd/latest`)
-        .then((resp) => {
-            if (resp.ok) {
-                resp.json().then((js) => callback(js))
-            } else callback(null)
-        })
-        .catch(() => callback(null))
+export const getLatestMotd = async () => {
+    return await api.get(`/motd/latest`)
 }
 
 /**
- * Get all MOTDs
- * @param callback
+ * Get all MOTDs.
  */
-export const getMotds = (callback) => {
-    fetch(`${base}/motd`)
-        .then((resp) => {
-            if (resp.ok) {
-                resp.json().then((js) => callback(js))
-            } else callback(null)
-        })
-        .catch(() => callback(null))
+export const getMotds = async () => {
+    return await api.get(`/motd`)
 }

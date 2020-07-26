@@ -1,4 +1,4 @@
-const { CLEAR, INFO, WARNING, ERROR, SUCCESS } = require("../actionType");
+import { CLEAR, INFO, WARNING, ERROR, SUCCESS } from "../actions/alert.actions.js"
 
 /**
  * An alert.

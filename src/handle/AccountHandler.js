@@ -1,5 +1,7 @@
-import {base} from "./Api";
+import {base, authApi, api} from "./Api";
 import Cookies from "universal-cookie"
+import store from "../redux/store"
+import { logOut } from "../redux/actions/auth.actions"
 
 const cookies = new Cookies();
 
@@ -8,30 +10,24 @@ const cookies = new Cookies();
  * @returns {any}
  */
 export const getSelf = () =>
-    JSON.parse(localStorage.getItem("selfData"))
+    store.getState().auth.user;
 
 /**
  * If user is signed in.
  * @returns {boolean}
  */
-export const signedIn = () =>
+export const isSignedIn = () =>
     getToken() != null
 
 /**
  * Get login attempts for self.
  * @param callback
  */
-export const getAttempts = (callback) => {
-    fetch(`${base}/user/attempts`, {
-        method: 'GET',
-        headers: {
-            "Authorization": `bearer ${cookies.get("token")}`
-        }
-    }).then((result) => {
-        result.json()
-            .then((json) => callback(json))
-    })
-        .catch(() => callback(null))
+export const getAttempts = async () => {
+    if (isSignedIn())
+        return null
+
+    return await authApi.get(`/user/attempts`)
 }
 
 /**
@@ -39,30 +35,17 @@ export const getAttempts = (callback) => {
  * @param username
  * @param callback
  */
-export const changeUsername = (username, callback) => {
-    let form = new FormData()
+export const changeUsername = async (username) => {
+    if (!isSignedIn())
+        return null
 
-    form.append("username", username)
+    let response = await authApi.post(`/user/username`, { username })
 
-    fetch(`${base}/user/username`, {
-        method: 'POST',
-        body: form,
-        headers: {
-            "Authorization": `bearer ${cookies.get("token")}`
-        }
-    })
-        .then((result) => {
-            if (result.ok) {
+    if (response.status === 200) {
+        store.dispatch(changeUsername(username))
 
-                let self = getSelf()
-                self.username = username
-
-                localStorage.setItem("selfData", JSON.stringify(self))
-
-                callback(true)
-            } else callback(false)
-        })
-        .catch(() => callback(false))
+        return response
+    } else return null
 }
 
 /**
@@ -70,28 +53,39 @@ export const changeUsername = (username, callback) => {
  * @param password
  * @param callback
  */
-export const changePassword = (password, callback) => {
-    let form = new FormData()
+export const changePassword = async (password) => {
+    if (!isSignedIn())
+        return null
 
-    form.append("password", password)
+    let response = await authApi.post(`/user/password`, { password });
 
-    fetch(`${base}/user/password`, {
-        method: 'POST',
-        body: form,
-        headers: {
-            "Authorization": `bearer ${cookies.get("token")}`
-        }
-    })
-        .then((result) => callback(result.ok))
-        .catch(() => callback(false))
+    if (response.status === 200) {
+        store.dispatch(changePassword(password));
+
+        return response;
+    } else return null;
 }
+
+/**
+ * If the currently logged in token is expired.
+ */
+export const isTokenExpired = () =>
+    store.getState().auth.expire !== -1 && new Date().getTime() >= store.getState().auth.expire
 
 /**
  * Get local token.
  * @returns {*}
  */
-export const getToken = () =>
-    cookies.get("token")
+export const getToken = () => {
+    let token = store.getState().auth.token
+
+    if (isTokenExpired()) {
+        store.dispatch(logOut())
+        return null
+    }
+
+    return token !== "" ? token : null
+}
 
 /**
  * Login
@@ -100,41 +94,12 @@ export const getToken = () =>
  * @param captcha
  * @param callback
  */
-export const login = (username, password, captcha, callback) => {
-    console.log(`Signing in using ${username}...`)
-
+export const login = async (username, password, captcha) => {
     let form = new FormData()
 
     form.append("username", username)
     form.append("password", password)
     form.append("captcha", captcha)
 
-    fetch(`${base}/user`, {
-        method: 'POST',
-        body: form
-    })
-        .then((resp) => {
-            if (resp.ok) {
-                console.log(`Sign in successful!`)
-
-                resp.json()
-                    .then((json) => {
-                        cookies.set("token", json.token.token, {
-                            path: '/',
-                            sameSite: 'Strict'
-                        })
-
-                        localStorage.setItem("selfData", JSON.stringify(json.user))
-
-                        callback(json)
-                    })
-            } else {
-                console.log(`Sign in unsuccessful!`)
-                callback(null)
-            }
-        })
-        .catch(() => {
-            console.log("Sign in unsuccessful!")
-            callback(null)
-        })
+    return await api.post("/user", { username, password, captcha})
 }

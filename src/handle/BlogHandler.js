@@ -1,94 +1,53 @@
-import {base} from "./Api";
-import {getToken} from "./AccountHandler";
+import { authApi, api, base } from "./Api";
+import { isSignedIn } from "./AccountHandler";
+import { isDiscordSignedIn } from "../view/buta/handle/ButaHandler";
 
 /**
  * Get blogs.
- * @param callback
  */
-export const getBlogs = (callback) => {
-    fetch(`${base}/blogs?emotes=true`, {
-        method: 'GET'
-    })
-        .then((response) => response.json().then((json) => callback(json)))
-        .catch((response) => {
-            console.log(response);
-            console.log("Fuck you ")
-            callback(null)
-        })
+export const getBlogs = async () => {
+    return await api.get("/blogs?emotes=true")
 }
 
 /**
- * Delete a blog.
- * @param id
+ * Delete a blog by it's ID.
+ * @param {*} id The blog's ID.
  */
-export const deleteBlog = (id, callback) => {
-    fetch(`${base}/blogs/${id}`, {
-        method: 'DELETE',
-        headers: {
-            "Authorization": `bearer ${getToken()}`
-        }
-    })
-        .then((response) => callback(response.ok))
-        .catch(() => callback(false))
+export const deleteBlog = async (id) => {
+    if (!isSignedIn())
+        return null
+
+    return await authApi.delete(`/blogs/${id}`)
 }
 
 /**
  * Get a blog by it's ID
  * @param id
- * @param callback
  */
-export const getBlog = (id, callback) => {
-    fetch(`${base}/blogs/${id}?emotes=true`)
-        .then((response) => {
-            if (response.ok) {
-                response.json()
-                    .then((json) => callback(json))
-            } else
-                callback(null)
-        })
-        .catch(() => callback(null))
+export const getBlog = async (id) => {
+    return await api.get(`${base}/blogs/${id}?emotes=true`)
 }
 
 /**
  * Add a tag to a blog.
- * @param id
- * @param tag
- * @param callback
+ * @param {*} id The blog's ID.
+ * @param {*} name The tag's name.
  */
-export const addBlogTag = (id, tag, callback) => {
-    let form = new FormData()
+export const addBlogTag = async (id, name) => {
+    if (!isDiscordSignedIn())
+        return null
 
-    form.append("name", tag)
-
-    fetch(`${base}/blogs/${id}/tags`, {
-        method: 'POST',
-        body: form,
-        headers: {
-            "Authorization": `bearer ${getToken()}`
-        }
-    })
-        .then((response) => callback(response.ok))
-        .catch(() => callback(false))
+    return await authApi.post(`/blogs/${id}/tags`, { name })
 }
 
 /**
- * Remove a tag to a blog.
- * @param id
- * @param tag
- * @param callback
+ * Remove a tag from a blog.
+ * @param {*} id The blog's ID.
+ * @param {*} name The tag's name.
  */
-export const removeBlogTag = (id, tag, callback) => {
-    let form = new FormData()
+export const removeBlogTag = async (id, name) => {
+    if (!isDiscordSignedIn())
+        return null
 
-    form.append("name", tag)
-
-    fetch(`${base}/blogs/${id}/tags`, {
-        method: 'DELETE',
-        body: form,
-        headers: {
-            "Authorization": `bearer ${getToken()}`
-        }
-    })
-        .then((response) => callback(response.ok))
-        .catch(() => callback(false))
+    return await authApi.delete(`/blogs/${id}/tags`, { name })
 }

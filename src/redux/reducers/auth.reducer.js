@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT } from "../actionType"
+import { LOG_IN, LOG_OUT, CHANGE_USERNAME, CHANGE_PASSWORD } from "../actions/auth.actions";
 
 let defaultState = {
     isLoggedIn: false,
@@ -7,17 +7,8 @@ let defaultState = {
     user: {
         username: "",
         id: "-1",
-        verified: false,
-        role: -1,
-        createdAt: -1,
-        profile: {
-            description: "",
-            discord: "",
-            location: ""
-        },
-        member: {
-            members: []
-        }
+        permissions: "[]",
+        createdOn: "-1"
     },
 };
 
@@ -38,15 +29,15 @@ const getInitialState = () => {
 
     if (local !== null && local !== "" && local !== undefined)
         return JSON.parse(local)
-    
+
     return defaultState
 }
 
 
 /**
  * Stores the user's name.
- * @param {*} state 
- * @param {*} action 
+ * @param {*} state
+ * @param {*} action
  */
 const auth = (state = getInitialState(), action) => {
     switch (action.type) {
@@ -70,6 +61,32 @@ const auth = (state = getInitialState(), action) => {
             let newState = defaultState
 
             saveState(defaultState)
+
+            return newState
+        }
+
+        case CHANGE_USERNAME: {
+            const { username } = action.payload
+
+            let newState = {
+                ...state,
+                username
+            }
+
+            saveState(newState)
+
+            return newState
+        }
+
+        case CHANGE_PASSWORD: {
+            const { password } = action.payload
+
+            let newState = {
+                ...state,
+                password
+            }
+
+            saveState(newState)
 
             return newState
         }
