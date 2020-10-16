@@ -4,7 +4,6 @@ import { HomeOutlined } from "@ant-design/icons";
 import { Form, Input, Checkbox } from "antd";
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 import LockOutlined from "@ant-design/icons/lib/icons/LockOutlined";
-import "../assets/scss/pages/login.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 import { message } from "antd";
 import { login, isSignedIn } from "../handle/AccountHandler";
@@ -15,13 +14,39 @@ import Navigation from "../component/Navigation";
 import LoginOutlined from "@ant-design/icons/lib/icons/LoginOutlined";
 import { useDispatch } from "react-redux";
 import { alertError, alertSuccess } from "../redux/actions/alert.actions";
-import { logIn } from "../redux/actions/auth.actions"
+import { logIn } from "../redux/actions/auth.actions";
+import styled from "styled-components";
+import Container from "../component/Container";
 
 const recaptchaRef = React.createRef();
 
+const LoginContainer = styled.div`
+    .reCaptchaForm {
+        margin-bottom: 1rem;
+    }
+
+    min-width: 400px;
+
+    .login-form {
+        max-width: 300px;
+    }
+
+    .login-form-forgot {
+        float: right;
+    }
+    
+    .ant-col-rtl .login-form-forgot {
+        float: left;
+    }
+
+    .login-form-button {
+        width: 100%;
+    }
+`;
+
 /**
  * The login page.
- * 
+ *
  * The login requires a username, password, and recaptcha.
  */
 export default function Login() {
@@ -42,11 +67,11 @@ export default function Login() {
         if (response.status === 200) {
             history.push("/");
 
-            let data = response.data
+            let data = response.data;
 
-            dispatch(logIn(data.token.token, data.user, data.token.expire))
+            dispatch(logIn(data.token.token, data.user, data.token.expire));
 
-            dispatch(alertSuccess(`You are now signed in as ${data.user}!`))
+            dispatch(alertSuccess(`You are now signed in as ${data.user}!`));
         } else {
             recaptchaRef.current.reset();
 
@@ -75,8 +100,8 @@ export default function Login() {
                 ]}
             />
 
-            <div className="container">
-                <div className="login-container">
+            <Container>
+                <LoginContainer>
                     <h1>Login</h1>
 
                     <Form
@@ -150,8 +175,8 @@ export default function Login() {
                             Or <a href="">register now!</a>
                         </Form.Item>
                     </Form>
-                </div>
-            </div>
+                </LoginContainer>
+            </Container>
         </>
     );
 }

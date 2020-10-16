@@ -1,24 +1,24 @@
-import React from "react"
-import {Input, Tag, Tooltip} from "antd";
+import React from "react";
+import { Input, Tag, Tooltip } from "antd";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
-import {addBlogTag, removeBlogTag} from "../../handle/BlogHandler";
+import { addBlogTag, removeBlogTag } from "../../handle/BlogHandler";
 
 export default class BlogTags extends React.Component {
     state = {
         tags: this.props.tags,
         inputVisible: false,
-        inputValue: '',
+        inputValue: "",
         editInputIndex: -1,
-        editInputValue: '',
+        editInputValue: "",
     };
 
-    handleClose = removedTag => {
-        const tags = this.state.tags.filter(tag => tag !== removedTag);
+    handleClose = (removedTag) => {
+        const tags = this.state.tags.filter((tag) => tag !== removedTag);
 
-        removeBlogTag(this.props.id, removedTag, () => {})
+        removeBlogTag(this.props.id, removedTag, () => {});
 
         this.setState({
-            tags
+            tags,
         });
     };
 
@@ -26,7 +26,7 @@ export default class BlogTags extends React.Component {
         this.setState({ inputVisible: true }, () => this.input.focus());
     };
 
-    handleInputChange = e => {
+    handleInputChange = (e) => {
         this.setState({ inputValue: e.target.value });
     };
 
@@ -37,16 +37,16 @@ export default class BlogTags extends React.Component {
             tags = [...tags, inputValue];
         }
 
-        addBlogTag(this.props.id, inputValue, () => {})
+        addBlogTag(this.props.id, inputValue, () => {});
 
         this.setState({
             tags,
             inputVisible: false,
-            inputValue: '',
+            inputValue: "",
         });
     };
 
-    handleEditInputChange = e => {
+    handleEditInputChange = (e) => {
         this.setState({ editInputValue: e.target.value });
     };
 
@@ -58,21 +58,27 @@ export default class BlogTags extends React.Component {
             return {
                 tags: newTags,
                 editInputIndex: -1,
-                editInputValue: '',
+                editInputValue: "",
             };
         });
     };
 
-    saveInputRef = input => {
+    saveInputRef = (input) => {
         this.input = input;
     };
 
-    saveEditInputRef = input => {
+    saveEditInputRef = (input) => {
         this.editInput = input;
     };
 
     render() {
-        const { tags, inputVisible, inputValue, editInputIndex, editInputValue } = this.state;
+        const {
+            tags,
+            inputVisible,
+            inputValue,
+            editInputIndex,
+            editInputValue,
+        } = this.state;
         return (
             <>
                 {tags.map((tag, index) => {
@@ -100,18 +106,24 @@ export default class BlogTags extends React.Component {
                             closable={this.props.visibility}
                             onClose={() => this.handleClose(tag)}
                         >
-              <span
-                  onDoubleClick={e => {
-                      if (index !== 0) {
-                          this.setState({ editInputIndex: index, editInputValue: tag }, () => {
-                              this.editInput.focus();
-                          });
-                          e.preventDefault();
-                      }
-                  }}
-              >
-                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-              </span>
+                            <span
+                                onDoubleClick={(e) => {
+                                    if (index !== 0) {
+                                        this.setState(
+                                            {
+                                                editInputIndex: index,
+                                                editInputValue: tag,
+                                            },
+                                            () => {
+                                                this.editInput.focus();
+                                            }
+                                        );
+                                        e.preventDefault();
+                                    }
+                                }}
+                            >
+                                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                            </span>
                         </Tag>
                     );
                     return isLongTag ? (
@@ -136,7 +148,9 @@ export default class BlogTags extends React.Component {
                 )}
                 {!inputVisible && (
                     <Tag
-                        className={`site-tag-plus ${this.props.visibility ? "" : "hidden"}`}
+                        className={`site-tag-plus ${
+                            this.props.visibility ? "" : "hidden"
+                        }`}
                         onClick={this.showInput}
                     >
                         <PlusOutlined /> New Tag

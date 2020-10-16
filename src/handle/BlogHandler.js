@@ -1,6 +1,5 @@
 import { authApi, api, base } from "./Api";
 import { isSignedIn } from "./AccountHandler";
-import { isDiscordSignedIn } from "../view/buta/handle/ButaHandler";
 
 /**
  * Get blogs.
@@ -34,8 +33,7 @@ export const getBlog = async (id) => {
  * @param {*} name The tag's name.
  */
 export const addBlogTag = async (id, name) => {
-    if (!isDiscordSignedIn())
-        return null
+    if (!isSignedIn()) return null;
 
     return await authApi.post(`/blogs/${id}/tags`, { name })
 }
@@ -46,8 +44,7 @@ export const addBlogTag = async (id, name) => {
  * @param {*} name The tag's name.
  */
 export const removeBlogTag = async (id, name) => {
-    if (!isDiscordSignedIn())
-        return null
+    if (!isSignedIn()) return null;
 
     return await authApi.delete(`/blogs/${id}/tags`, { name })
 }

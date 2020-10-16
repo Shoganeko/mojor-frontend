@@ -10,13 +10,21 @@ import {
     isSignedIn,
 } from "../handle/AccountHandler";
 import { Redirect } from "react-router-dom";
-import "../assets/scss/pages/settings.scss";
 import Navigation from "../component/Navigation";
 import history from "../handle/History";
 import { useDispatch } from "react-redux";
 import { alertError, alertSuccess } from "../redux/actions/alert.actions";
+import Container from "../component/Container";
+import Heading from "../component/Heading";
+import styled from "styled-components"
 
 const { TabPane } = Tabs;
+
+const SettingContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+`
 
 export default function Settings() {
     let [data, setData] = useState([]);
@@ -89,40 +97,46 @@ export default function Settings() {
 
             if (!hasAlerted) dispatch(alertError("Invalid username!"));
         }
+    };
 
-        if (!isSignedIn()) return <Redirect to="/login" />;
+    if (!isSignedIn()) return <Redirect to="/login" />;
 
-        return (
-            <>
-                <Navigation
-                    user={<User />}
-                    breadcrumbs={[
-                        {
-                            name: <HomeOutlined />,
-                            url: "/",
-                        },
-                        {
-                            name: <SettingOutlined />,
-                            url: "/settings",
-                        },
-                    ]}
-                />
+    return (
+        <>
+            <Navigation
+                user={<User />}
+                breadcrumbs={[
+                    {
+                        name: <HomeOutlined />,
+                        url: "/",
+                    },
+                    {
+                        name: <SettingOutlined />,
+                        url: "/settings",
+                    },
+                ]}
+            />
 
-                <div className="container">
-                    <Tabs
-                        defaultActiveKey="1"
-                        size="small"
-                        className="settings-container"
-                    >
-                        <TabPane tab="Account" key="1">
-                            <p>Change various account settings.</p>
-                            <br />
-                            <Form
-                                name="basic"
-                                className="set-username"
-                                onFinish={updateUser}
-                                onFinishFailed={() => {}}
-                            >
+            <Container>
+                <h1>Settings</h1>
+
+                <Tabs
+                    defaultActiveKey="1"
+                    size="small"
+                    style={{
+                        width: "480px",
+                    }}
+                >
+                    <TabPane tab="Account" key="1">
+                        <p>Change various account settings.</p>
+                        <br />
+
+                        <Form
+                            name="basic"
+                            onFinish={updateUser}
+                            onFinishFailed={() => {}}
+                        >
+                            <SettingContainer>
                                 <Form.Item
                                     label="Username"
                                     name="username"
@@ -137,20 +151,19 @@ export default function Settings() {
                                     <Input />
                                 </Form.Item>
 
-                                <br />
-
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit">
                                         Submit
                                     </Button>
                                 </Form.Item>
-                            </Form>
+                            </SettingContainer>
+                        </Form>
 
-                            <Form
-                                name="basic"
-                                className="set-password"
-                                onFinish={changePass}
-                            >
+                        <Form
+                            name="basic"
+                            onFinish={changePass}
+                        >
+                            <SettingContainer>
                                 <Form.Item
                                     label="Password"
                                     name="password"
@@ -170,43 +183,43 @@ export default function Settings() {
                                         Submit
                                     </Button>
                                 </Form.Item>
-                            </Form>
-                        </TabPane>
+                            </SettingContainer>
+                        </Form>
+                    </TabPane>
 
-                        <TabPane tab="Preferences" key="2">
-                            <p>No preferences currently, check back later!</p>
-                        </TabPane>
+                    <TabPane tab="Preferences" key="2">
+                        <p>No preferences currently, check back later!</p>
+                    </TabPane>
 
-                        <TabPane tab="Previous Logins" key="3">
-                            <p>
-                                View previous logins to this account. <br /> If
-                                something seems suspicious, please email
-                                support@shog.dev
-                            </p>
-                            <br />
+                    <TabPane tab="Previous Logins" key="3">
+                        <p>
+                            View previous logins to this account. <br /> If
+                            something seems suspicious, please email
+                            support@shog.dev
+                        </p>
+                        <br />
 
-                            <Table
-                                columns={[
-                                    {
-                                        title: "Time",
-                                        dataIndex: "time",
-                                    },
-                                    {
-                                        title: "IP",
-                                        dataIndex: "ip",
-                                    },
-                                    {
-                                        title: "Success",
-                                        dataIndex: "success",
-                                        render: (bool) => (bool ? "Yes" : "No"),
-                                    },
-                                ]}
-                                dataSource={data}
-                            />
-                        </TabPane>
-                    </Tabs>
-                </div>
-            </>
-        );
-    };
+                        <Table
+                            columns={[
+                                {
+                                    title: "Time",
+                                    dataIndex: "time",
+                                },
+                                {
+                                    title: "IP",
+                                    dataIndex: "ip",
+                                },
+                                {
+                                    title: "Success",
+                                    dataIndex: "success",
+                                    render: (bool) => (bool ? "Yes" : "No"),
+                                },
+                            ]}
+                            dataSource={data}
+                        />
+                    </TabPane>
+                </Tabs>
+            </Container>
+        </>
+    );
 }

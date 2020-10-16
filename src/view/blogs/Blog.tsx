@@ -3,34 +3,42 @@ import { Breadcrumb, Button, Divider, Tag, Spin, Empty } from "antd";
 import { EditOutlined, HomeOutlined } from "@ant-design/icons";
 import User from "../../component/User";
 import { getSelf } from "../../handle/AccountHandler";
-import "../../assets/scss/pages/blog.scss";
 import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
 import { ExpandOutlined } from "@ant-design/icons"
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useParams, useRouteMatch } from "react-router-dom";
 import BlogTags from "./BlogTags";
 import { getBlog, getBlogs } from "../../handle/BlogHandler";
 import Navigation from "../../component/Navigation";
+import { BlogResponse } from "./BlogData";
+import useStatus from "../../handle/RequestUtil";
+import styled from "styled-components"
+import Container from "../../component/Container";
+
+const BlogFooter = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 16vw;
+    margin-top: 4rem;
+`;
+
+const BlogContainer = styled.div`
+    max-width: 850px;
+    padding-top: 4rem;
+`;
 
 /**
  * An individual blog.
  * @param {*} props 
  */
-export default function Blog(props) {
-    const {
-        params: { id },
-    } = useRouteMatch();
+export default () => {
+    const { id }= useParams() as any
+    
+    const [blogResponse, setBlogResponse] = useState({ } as BlogResponse) 
+    const [complete, error, status, setStatus] = useStatus()
 
-    let [blog, setBlog] = useState({
-        isLoaded: false,
-        title: "",
-        body: "",
-        owner: "",
-        ownerText: "",
-        id: "",
-        date: "",
-        tags: [],
-    });
+    const { blog, user } = blogResponse
 
     useEffect(() => {
         const loadBlog = async () => {
@@ -39,22 +47,10 @@ export default function Blog(props) {
             if (request.status === 200) {
                 let response = request.data
 
-                setBlog((prevState) => ({
-                    ...prevState,
-                    tags: response.blog.tags,
-                    title: response.blog.title,
-                    body: response.blog.body,
-                    id: response.blog.id,
-                    date: new Date(response.blog.date).toLocaleString(),
-                    owner: response.blog.creator,
-                    ownerText: response.owner.username,
-                }));
+                setBlogResponse(response as BlogResponse)
             }
 
-            setBlog((prevState) => ({
-                ...prevState,
-                isLoaded: true,
-            }));
+            setStatus(prev => ({ ...prev, complete: true }))
         };
 
         loadBlog();
@@ -80,23 +76,23 @@ export default function Blog(props) {
                         url: "/blog",
                     },
                     {
-                        name: blog.title,
-                        url: "/blog/" + blog.id,
+                        name: blog === undefined ? "..." : blog.title,
+                        url:
+                            "/blog/" +
+                            (blog === undefined ? "..." : blog.id),
                     },
                 ]}
             />
 
-            <div className="container">
-                <div className="blog-viewer-container">
-                    {blog.isLoaded && blog.title !== "" && (
+            <Container>
+                <BlogContainer>
+                    {complete && !error && (
                         <>
-                            <div className="blog-viewer-title">
-                                <h1>
-                                    {blog.title}
-                                </h1>
+                            <div>
+                                <h1>{blog.title}</h1>
                                 <h3>
                                     Posted on {blog.date}. Posted by{" "}
-                                    {blog.ownerText}
+                                    {user.username}
                                 </h3>
                                 <div>
                                     <BlogTags
@@ -106,13 +102,14 @@ export default function Blog(props) {
                                     />
                                 </div>
                             </div>
+
                             <div
-                                className="blog-viewer-body"
                                 dangerouslySetInnerHTML={{
                                     __html: blog.body,
                                 }}
                             />
-                            <div className="blog-viewer-footer">
+
+                            <BlogFooter>
                                 {getVisibility() && (
                                     <>
                                         <p>
@@ -123,15 +120,17 @@ export default function Blog(props) {
                                         </p>
                                     </>
                                 )}
-                            </div>
+                            </BlogFooter>
                         </>
                     )}
 
-                    {!blog.isLoaded && <Spin />}
+                    {!complete && <Spin />}
 
-                    {blog.isLoaded && blog.title === "" && <Empty />}
-                </div>
-            </div>
+                    {complete && error && (
+                        <Empty description="That blog could not be found." />
+                    )}
+                </BlogContainer>
+            </Container>
         </>
     );
 }
