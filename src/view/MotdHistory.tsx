@@ -16,8 +16,8 @@ const MotdHistoryContainer = styled.div`
     gap: 8px;
 `
 
-const MotdHistory = styled.div<{ isSelected: boolean }>`
-    background-color: ${(props) => (props.isSelected ? "#302f2e" : "#161616")};
+const MotdHistory = styled.div`
+    background-color: #161616;
     padding: 24px;
     border-radius: 4px;
 `;
@@ -98,23 +98,13 @@ export default () => {
                             return (
                                 <MotdHistory
                                     key={index}
-                                    isSelected={motd.motd.date == selected}
                                 >
                                     <MotdHeader>
                                         <div>
                                             <h2>{motd.motd.data}</h2>
                                         </div>
-
-                                        <div>
-                                            <SelectOutlined
-                                                onClick={() =>
-                                                    updateSelected(
-                                                        motd.motd.date
-                                                    )
-                                                }
-                                            />
-                                        </div>
                                     </MotdHeader>
+                                    
                                     <p>
                                         by{" "}
                                         {

@@ -23,9 +23,6 @@ export const isSignedIn = () =>
  * @param callback
  */
 export const getAttempts = async () => {
-    if (!isSignedIn())
-        return null
-
     return await authApi.get(`/user/attempts`)
 }
 
@@ -36,15 +33,15 @@ export const getAttempts = async () => {
  */
 export const changeUsername = async (username) => {
     if (!isSignedIn())
-        return null
+        return false
 
     let response = await authApi.post(`/user/username`, { username })
 
     if (response.status === 200) {
         store.dispatch(changeUsername(username))
 
-        return response
-    } else return null
+        return true
+    } else return false
 }
 
 /**

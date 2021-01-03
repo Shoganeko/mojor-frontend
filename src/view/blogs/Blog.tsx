@@ -3,12 +3,9 @@ import { Breadcrumb, Button, Divider, Tag, Spin, Empty } from "antd";
 import { EditOutlined, HomeOutlined } from "@ant-design/icons";
 import User from "../../component/User";
 import { getSelf } from "../../handle/AccountHandler";
-import PlusCircleOutlined from "@ant-design/icons/lib/icons/PlusCircleOutlined";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
-import { ExpandOutlined } from "@ant-design/icons"
-import { Link, useParams, useRouteMatch } from "react-router-dom";
-import BlogTags from "./BlogTags";
-import { getBlog, getBlogs } from "../../handle/BlogHandler";
+import { useParams } from "react-router-dom";
+import { getBlog } from "../../handle/BlogHandler";
 import Navigation from "../../component/Navigation";
 import { BlogResponse } from "./BlogData";
 import useStatus from "../../handle/RequestUtil";
@@ -33,7 +30,7 @@ const BlogContainer = styled.div`
  * @param {*} props 
  */
 export default () => {
-    const { id }= useParams() as any
+    const { id } = useParams() as any
     
     const [blogResponse, setBlogResponse] = useState({ } as BlogResponse) 
     const [complete, error, status, setStatus] = useStatus()
@@ -94,13 +91,6 @@ export default () => {
                                     Posted on {blog.date}. Posted by{" "}
                                     {user.username}
                                 </h3>
-                                <div>
-                                    <BlogTags
-                                        id={blog.id}
-                                        tags={blog.tags}
-                                        visibility={getVisibility()}
-                                    />
-                                </div>
                             </div>
 
                             <div

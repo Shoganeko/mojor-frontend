@@ -9,19 +9,26 @@ const MotdContainer = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: -1rem;
+    margin-top: -3.5rem;
 `;
 
-const MotdTitle = styled.h1`
+const Title = styled.h1`
     color: rgb(146, 167, 204);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 300;
     margin-bottom: 0;
 `;
 
-const MotdFooter = styled.p`
+const ViewMore = styled.div`
+    a {
+        font-size: 9px;
+    }
+`;
+
+const Footer = styled.p`
     font-family: "Roboto Mono", monospace;
     font-size: 10px;
+    text-transform: uppercase;
 `;
 
 export default () => {
@@ -80,14 +87,17 @@ export default () => {
         <>
             {!status.error && status.loaded && (
                 <MotdContainer>
-                    <MotdTitle>{motd.motd}</MotdTitle>
-                    <MotdFooter>
+                    <Title>{motd.motd}</Title>
+
+                    <Footer>
                         {motd.date} by {motd.owner}
                         <br />
-                        <Link to={`/history?selected=${motd.dateUnix}`}>
-                            View more
-                        </Link>
-                    </MotdFooter>
+                        <ViewMore>
+                            <Link to={`/history?selected=${motd.dateUnix}`}>
+                                View more
+                            </Link>
+                        </ViewMore>
+                    </Footer>
                 </MotdContainer>
             )}
 

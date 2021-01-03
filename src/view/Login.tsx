@@ -1,5 +1,5 @@
 import { Button, notification } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { HomeOutlined } from "@ant-design/icons";
 import { Form, Input, Checkbox } from "antd";
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
@@ -13,12 +13,12 @@ import User from "../component/User";
 import Navigation from "../component/Navigation";
 import LoginOutlined from "@ant-design/icons/lib/icons/LoginOutlined";
 import { useDispatch } from "react-redux";
-import { alertError, alertSuccess } from "../redux/actions/alert.actions";
 import { logIn } from "../redux/actions/auth.actions";
 import styled from "styled-components";
 import Container from "../component/Container";
-
-const recaptchaRef = React.createRef();
+import toast from "react-hot-toast";
+import toastStyle from "../handle/toastStyle";
+import { Store } from "antd/lib/form/interface";
 
 const LoginContainer = styled.div`
     .reCaptchaForm {
@@ -52,13 +52,15 @@ const LoginContainer = styled.div`
 export default function Login() {
     let dispatch = useDispatch();
 
+    const [ref, setRef] = useState<ReCAPTCHA>();
+
     if (isSignedIn()) return <Redirect to="/" />;
 
-    const formLogin = async (values) => {
-        let captcha = recaptchaRef.current.getValue();
+    const formLogin = async (values: Store) => {
+        let captcha = ref!!.getValue()
 
         if (captcha == null || captcha === "") {
-            dispatch(alertError("You must fill out the RECaptcha!"));
+            toast.error("You must fill out the captcha!", toastStyle);
             return;
         }
 
@@ -71,16 +73,13 @@ export default function Login() {
 
             dispatch(logIn(data.token.token, data.user, data.token.expire));
 
-            dispatch(alertSuccess(`You are now signed in as ${data.user}!`));
+            toast.success(`You are now signed in as ${data.user.name}!`, toastStyle);
         } else {
-            recaptchaRef.current.reset();
+            ref!!.reset();
 
-            document.getElementById("normal_login_password").value = "";
-            message.error("Invalid username or password!");
+            (document.getElementById("normal_login_password")!! as HTMLInputElement).value = "";
 
-            dispatch(alertError("Invalid username or password!"));
-
-            return;
+            toast.error("Invalid username or password!", toastStyle);
         }
     };
 
@@ -152,16 +151,24 @@ export default function Login() {
                                 <Checkbox>Remember me</Checkbox>
                             </Form.Item>
 
-                            <a className="login-form-forgot" href="">
+                            <a
+                                href="#"
+                                className="login-form-forgot"
+                                onClick={() =>
+                                    toast("cry about it", {
+                                        icon: "😢",
+                                        ...toastStyle
+                                    })
+                                }
+                            >
                                 Forgot password
                             </a>
                         </Form.Item>
 
                         <ReCAPTCHA
-                            ref={recaptchaRef}
+                            ref={(captcha: ReCAPTCHA) => setRef(captcha)}
                             sitekey="6Le4HJgUAAAAALeqcwesooIXY1Bw-oR9wtxN0IHH"
                             theme="dark"
-                            className="reCaptchaForm"
                         />
 
                         <Form.Item>
@@ -169,10 +176,12 @@ export default function Login() {
                                 type="primary"
                                 htmlType="submit"
                                 className="login-form-button"
+                                style={{
+                                    marginTop: "1.5rem",
+                                }}
                             >
                                 Log in
                             </Button>
-                            Or <a href="">register now!</a>
                         </Form.Item>
                     </Form>
                 </LoginContainer>

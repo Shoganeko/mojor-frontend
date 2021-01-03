@@ -3,8 +3,7 @@ export type BlogData = {
     creator: string,
     date: number,
     title: string,
-    body: string,
-    tags: []
+    body: string
 }
 
 export type UserData = {

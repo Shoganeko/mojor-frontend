@@ -10,12 +10,15 @@ import Heading from "../../component/Heading";
 
 const LinksContainer = styled.div`
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
 
     a {
         font-size: 14px;
     }
 `;
+
+const TryContainer = styled.div`
+`
 
 export default () => {
 
@@ -32,9 +35,9 @@ export default () => {
             />
 
             <Container>
-                <Heading>shog.dev</Heading>
+                <Heading>SHO</Heading>
 
-                <RecentMotd/>
+                <RecentMotd />
 
                 <LinksContainer>
                     <p>
@@ -46,6 +49,12 @@ export default () => {
                         <Link to="/blog">blog</Link>.
                     </p>
                 </LinksContainer>
+
+                <TryContainer>
+                    <p>
+                        try <Link to="/projects/unifey">unifey</Link> or <Link to="/projects/buta">buta</Link>.
+                    </p>
+                </TryContainer>
             </Container>
         </>
     );
