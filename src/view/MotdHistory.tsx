@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {getLatestMotd, getMotds} from "../handle/MotdHandler";
-import {Breadcrumb, Button, Card, Divider, Skeleton} from "antd";
-import {Link, Redirect} from "react-router-dom";
-import {HistoryOutlined, HomeOutlined, SettingOutlined} from "@ant-design/icons"
+import {getMotds} from "../handle/MotdHandler";
+import {Skeleton} from "antd";
+import {Link} from "react-router-dom";
+import {HistoryOutlined, HomeOutlined} from "@ant-design/icons"
 import User from "../component/User";
-import SelectOutlined from "@ant-design/icons/lib/icons/SelectOutlined";
 import Navigation from "../component/Navigation";
 import Container from "../component/Container";
 import styled from "styled-components";
-import Heading from "../component/Heading";
 
 const MotdHistoryContainer = styled.div`
     display: flex;
@@ -46,13 +44,6 @@ export default () => {
         if (urlSelected != null)
             setSelected(+urlSelected)
     }, [])
-
-    const updateSelected = (date: number) => {
-        if (selected == date)
-            setSelected(0)
-        else
-            setSelected(date)
-    }
 
     return (
         <>
@@ -104,7 +95,7 @@ export default () => {
                                             <h2>{motd.motd.data}</h2>
                                         </div>
                                     </MotdHeader>
-                                    
+
                                     <p>
                                         by{" "}
                                         {

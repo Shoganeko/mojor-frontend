@@ -6,7 +6,6 @@ import { isSignedIn } from "../../handle/AccountHandler";
 import { Redirect } from "react-router-dom";
 import Navigation from "../../component/Navigation";
 import Container from "../../component/Container";
-import styled from "styled-components";
 import Account from "./Account";
 import PreviousLogins from "./PreviousLogins";
 

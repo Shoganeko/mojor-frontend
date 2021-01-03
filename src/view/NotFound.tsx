@@ -1,5 +1,5 @@
 import React from "react"
-import {HomeOutlined, SettingOutlined} from "@ant-design/icons";
+import {HomeOutlined} from "@ant-design/icons";
 import User from "../component/User";
 import Navigation from "../component/Navigation";
 import styled from "styled-components"

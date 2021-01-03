@@ -2,7 +2,7 @@ import React from "react"
 import { BlogResponse } from "../BlogData";
 import styled from "styled-components"
 import { Link } from "react-router-dom";
-import { Divider, Tag } from "antd";
+import { Divider } from "antd";
 
 type Props = {
     response: BlogResponse

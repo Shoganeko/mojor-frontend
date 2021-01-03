@@ -54,7 +54,7 @@ export default () => {
         };
 
         loadBlogs();
-    }, []);
+    }, [setStatus]);
 
     const getVisibility = () => {
         let self = getSelf();

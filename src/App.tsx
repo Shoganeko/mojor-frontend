@@ -3,17 +3,14 @@ import Home from "./view/Home/Home";
 import { Route, Switch } from "react-router-dom";
 import NotFound from "./view/NotFound";
 import Projects from "./view/projects/Projects";
-import Buta from "./view/projects/specific/Buta";
-import Mojor from "./view/projects/specific/Mojor";
 import Clock from "./view/Clock";
 import Login from "./view/Login";
 import MotdHistory from "./view/MotdHistory";
 import Settings from "./view/Settings/Settings";
 import Blog from "./view/blogs/Blog";
 import AllBlogs from "./view/blogs/AllBlogs";
-import "./assets/default.scss";
 
-import { useSelector, useDispatch } from "react-redux";
+import "./assets/default.scss";
 import Footer from "./component/Footer";
 import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
