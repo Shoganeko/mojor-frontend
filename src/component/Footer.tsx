@@ -17,7 +17,7 @@ const Footer = styled.div`
 export default () => {
     return (
         <Footer>
-            <p>shog.dev ©{new Date().getFullYear()} <Link to="/privacy">Privacy</Link></p>
+            <p>shog.dev ©{new Date().getFullYear()} <Link to="/privacy">Privacy</Link> {process.env.NODE_ENV}</p>
         </Footer>
     );
 }

@@ -2,7 +2,10 @@ import axios from "axios";
 import { logOut } from "../redux/actions/auth.actions";
 import store from "../redux/store";
 
-export const base = "http://localhost:8080"
+export const base =
+    process.env.NODE_ENV === "production"
+        ? "https://api.shog.dev"
+        : "http://localhost:8080";
 
 /**
  * The API without authentication.
